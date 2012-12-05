@@ -11,6 +11,11 @@ import Hakyll
 
 main :: IO ()
 main = hakyll $ do
+    -- Move images
+    match "images/*" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     -- Compress CSS
     match "css/*" $ do
         route   idRoute

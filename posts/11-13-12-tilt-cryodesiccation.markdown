@@ -22,7 +22,8 @@ However, we know that the state of matter (liquid, solid, gas) is
 affected not just by temperature, but also by pressure. These phases are
 represented by a phase diagram that looks something like:
 
-![A Phase Diagram](images/phasediagram.jpg)
+![A Phase
+Diagram](/images/phasediagram.jpg)
 
 At a specific pressure and temperature, water is in the phase plotted on
 this chart. Notice that at low temperatures and low pressures, water can

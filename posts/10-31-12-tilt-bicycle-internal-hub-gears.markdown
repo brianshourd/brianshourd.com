@@ -14,7 +14,7 @@ But the way in which they work is remarkably simple. In the three-speed case, it
 
 A simple planetary gear system looks like the picture below:
 
-![Planetary Gears](images/planetary.jpg)
+![Planetary Gears](/images/planetary.jpg)
 
 There is a sun gear, some inner gears (also called planets or middle gears), and an outer ring gear (which has teeth on the inside). The sun and planets are connected by a planet carrier in such a way that they spin freely with respect to the carrier. Such a planetary gear system can be used in many different styles, depending on whether the sun, ring, or carrier is fixed and which of these is used as input.
 
