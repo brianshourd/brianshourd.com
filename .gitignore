@@ -1,3 +1,6 @@
 *.swp
 *.o
-*.i
+*.hi
+hakyll
+_site
+_cache
