@@ -1,0 +1,12 @@
+"=========== Meta ============
+"StrID : 159
+"Title : Thing I Learned Today: Linking Windows in tmux
+"Slug  : 
+"Cats  : Thing I Learned Today
+"Tags  : software, tmux
+"=============================
+"EditType   : post
+"EditFormat : Markdown
+"BlogAddr   : http://bshourd.wordpress.com/
+"========== Content ==========
+Have you tried `tmux` yet? It's my new best friend.

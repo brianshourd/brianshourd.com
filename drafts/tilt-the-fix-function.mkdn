@@ -1,0 +1,13 @@
+"=========== Meta ============
+"StrID : 99
+"Title : Thing I Learned Today: The fix Function
+"Slug  : 
+"Cats  : Thing I Learned Today
+"Tags  : coding, haskell
+"=============================
+"EditType   : post
+"EditFormat : HTML
+"BlogAddr   : http://bshourd.wordpress.com/
+"========== Content ==========
+
+

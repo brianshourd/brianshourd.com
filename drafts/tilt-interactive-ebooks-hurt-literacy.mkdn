@@ -1,0 +1,20 @@
+"=========== Meta ============
+"StrID : 85
+"Title : Thing I Learned Today: Interactive Ebooks Hurt Literacy
+"Slug  : 
+"Cats  : Thing I Learned Today
+"Tags  : 
+"=============================
+"EditType   : post
+"EditFormat : HTML
+"BlogAddr   : http://bshourd.wordpress.com/
+"========== Content ==========
+As a new father, I think about these sorts of things. Even though Ada is very tiny still, she loves books. She loves to turn the pages, loves to look at the pictures, loves to hear us read to her, loves to make animal noises at the animals. The first thing she wants to do when she wakes up is read a book, and it's the last thing she wants before bed. Books, books, books.
+
+Naturally, I assume that she would also love some interactive ebooks on the iPad. I haven't ever tried, though, because Skyler makes weekly trips to the library and Ada is never without a source of free new books to keep her occupied (side note: thank you government for funding libraries - what a beautiful thing). I'd rather she wasn't playing with my iPad, since it's expensive and she is sticky and has Hulkian inclinations (Ada Smash!).
+
+But today I stumbled across this <a href="http://www.guardian.co.uk/books/2012/jun/07/enhanced-ebooks-bad-for-children">study finding that interactive ebooks decrease literacy</a> in young children. 
+
+Summarize the study here
+
+It isn't exactly surprising that the bells and whistles detract from the story. Nor is it applicable to me, since Ada is using books purely as entertainment. At her age, the words mean nothing and she can't follow the story anyway, so it's all just pictures accompanied with strange parent sounds. I just thought that it was an interesting study and a well-written summary.
