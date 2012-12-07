@@ -4,22 +4,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Brian Shourd - $title$</title>
-        <link rel="stylesheet" type="text/css" href="/css/default.css" />
-        <link rel="stylesheet" type="text/css" href="/css/toast.css" />
+        <title>Brian Shourd - $siteTitle$</title>
+        <!-- <link rel="stylesheet" type="text/css" href="/css/toast.css" />
+        <link rel="stylesheet" type="text/css" href="/css/syntax.css" />
+        <link rel="stylesheet" type="text/css" href="/css/default.css" /> -->
+        <link rel="stylesheet" type="text/css" href="/css/style.css" />
         <link rel="alternate"
               type="application/rss+xml"
-              title="SimpleBlog"
+              title="Brian Shourd"
               href="/rss.xml" />
         $mathjax$
     </head>
     <body>
-        <h1>Brian Shourd - $title$</h1>
-        <div id="navigation">
-            <a href="/">Home</a>
-            <a href="/posts.html">All posts</a>
+        <div class="wrap">
+            <div class="grids">
+                <div id="banner" class="grid-12">
+                    <h1>Brian Shourd - $siteTitle$</h1>
+                </div>            
+
+                <div id="navigation" class="grid-3">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/posts.html">Blog</a></li>
+                        <li><a href="/about.html">About</a></li>
+                        <li><a href="http://github.com/brianshourd">Github</a></li>
+                    </ul>
+                </div>
+
+                <div id="content" class="grid-9">
+                    $body$
+                </div>
+            </div>
         </div>
-        
-        $body$
     </body>
 </html>

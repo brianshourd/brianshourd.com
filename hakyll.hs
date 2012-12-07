@@ -17,16 +17,23 @@ main = hakyll $ do
         compile copyFileCompiler
 
     -- Compress CSS
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+--    match "css/*" $ do
+--        route   idRoute
+--        compile compressCssCompiler
+    match "css/style.scss" $ do
+        route   $ setExtension ".css"
+        compile $ getResourceString 
+            >>> unixFilter "sass" ["-s", "--scss", "--trace", "--load-path", "css"]
+            >>> arr compressCss 
 
     -- Render posts
     match "posts/*" $ do
         route   $ setExtension ".html"
         compile $ pageCompilerWith defaultHakyllParserState pandocOptions
             >>> arr (checkMathOption)
+            >>> arr (\p -> setField "description" (getField "body" p) p)
             >>> applyTemplateCompiler "templates/post.html"
+            >>> arr (setField "siteTitle" "Blog")
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
 
@@ -34,7 +41,7 @@ main = hakyll $ do
     match  "posts.html" $ route idRoute
     create "posts.html" $ constA mempty
         >>> arr (checkMathOption)
-        >>> arr (setField "title" "All posts")
+        >>> arr (setField "siteTitle" "All Posts")
         >>> requireAllA "posts/*" addPostList
         >>> applyTemplateCompiler "templates/posts.html"
         >>> applyTemplateCompiler "templates/default.html"
@@ -44,16 +51,26 @@ main = hakyll $ do
     match  "index.html" $ route idRoute
     create "index.html" $ constA mempty
         >>> arr (checkMathOption)
-        >>> arr (setField "title" "Home")
+        >>> arr (setField "siteTitle" "Home")
         >>> requireAllA "posts/*" (id *** arr (take 3 . reverse . chronological) >>> addPostList)
         >>> applyTemplateCompiler "templates/index.html"
         >>> applyTemplateCompiler "templates/default.html"
         >>> relativizeUrlsCompiler
 
+    -- About
+    match "about.markdown" $ do
+        route   $ setExtension ".html"
+        compile $ pageCompiler
+            >>> arr (checkMathOption)
+            >>> arr (setField "siteTitle" "About")
+            >>> applyTemplateCompiler "templates/default.html"
+            >>> relativizeUrlsCompiler    
+            
     -- Render RSS feed
-    match  "rss.xml" $ route idRoute
-    create "rss.xml" $
-        requireAll_ "posts/*" >>> renderRss feedConfiguration
+--    match  "rss.xml" $ route idRoute
+--    create "rss.xml" $
+--        requireAll_ "posts/*" 
+--        >>> renderRss feedConfiguration
 
     -- Read templates
     match "templates/*" $ compile templateCompiler
@@ -68,14 +85,14 @@ addPostList = setFieldA "posts" $
         >>> arr mconcat
         >>> arr pageBody
 
-feedConfiguration :: FeedConfiguration
-feedConfiguration = FeedConfiguration
-    { feedTitle       = "SimpleBlog RSS feed."
-    , feedDescription = "A simple demo of an RSS feed created with Hakyll."
-    , feedAuthorName  = "Jasper Van der Jeugt"
-    , feedAuthorEmail = "test@example.com"
-    , feedRoot        = "http://example.com"
-    }
+--feedConfiguration :: FeedConfiguration
+--feedConfiguration = FeedConfiguration
+--    { feedTitle       = "Blog - Brian Shourd"
+--    , feedDescription = "Thing I Learned Today"
+--    , feedAuthorName  = "Brian Shourd"
+--    , feedAuthorEmail = "brian.shourd@gmail.com"
+--    , feedRoot        = "http://shou4577.uk.to:8000"
+--    }
 
 pandocOptions :: WriterOptions
 pandocOptions = defaultHakyllWriterOptions
@@ -84,8 +101,7 @@ pandocOptions = defaultHakyllWriterOptions
 
 checkMathOption :: Page String -> Page String
 checkMathOption page =
-  case getFieldMaybe "math" page of
-       _ -> setField "mathjax" "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\" />" page
---     Nothing -> setField "mathjax" "" page
---     Just _  -> setField "mathjax" "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\" />" page
+    case getFieldMaybe "math" page of
+        Nothing -> setField "mathjax" "" page
+        Just _  -> setField "mathjax" "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\" />" page
 

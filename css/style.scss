@@ -1,0 +1,47 @@
+/* Import everyting from Toast */
+@import "reset";
+@import "grid";
+@import "type";
+
+/* import syntax highlighting (Pandoc) */
+@import "syntax";
+
+$bgcolor: white;
+$fgcolor: black;
+
+div#banner {
+    text-align: left;
+    margin-bottom: 0px;
+    border-bottom: 4px solid $fgcolor;
+    h1 {
+        width: auto;
+    }
+
+}
+
+div#content {
+    border-left: 4px solid $fgcolor;
+    margin-left: 0px;
+    padding-left: 10px;
+}
+
+div#navigation {
+    text-align: right;
+    margin-top: 0px;
+    a {
+        color: $bgcolor;
+        text-decoration: none;
+        background-color: $fgcolor;
+        padding: 3px 10px 3px 10px;
+    }
+    li {
+        list-style-type: none;
+        padding: 3px 0px 3px 0px;
+    }
+}
+
+/* don't let code blocks stretch too far */
+pre {
+    overflow: scroll;
+    background-color: #eeeeee;
+}

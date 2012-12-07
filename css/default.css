@@ -1,11 +1,22 @@
-body {
-    width: 600px;
-    margin: 0px auto 0px auto;
+div#banner {
+    text-align: left;
+    margin-bottom: 0px;
+    border-bottom: 4px solid black;
+}
+
+div#banner h1 {
+    width: auto;
+}
+
+div#content {
+    border-left: 4px solid black;
+    margin-left: 0px;
+    padding-left: 10px;
 }
 
 div#navigation {
-    text-align: center;
-    border-bottom: 4px solid black;
+    text-align: right;
+    margin-top: 0px;
 }
 
 div#navigation a {
@@ -13,10 +24,15 @@ div#navigation a {
     text-decoration: none;
     background-color: black;
     padding: 3px 10px 3px 10px;
-    margin: 0px 10px 0px 10px;
+}
+
+div#navigation li {
+    list-style-type: none;
+    padding: 3px 0px 3px 0px;
 }
 
 /* don't let code blocks stretch too far */
 pre {
-    overflow: auto;
+    overflow: scroll;
+    background-color: #eeeeee;
 }
