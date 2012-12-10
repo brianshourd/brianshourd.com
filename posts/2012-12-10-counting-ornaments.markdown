@@ -3,6 +3,7 @@ title: Counting Ornaments
 author: Brian Shourd
 date: December 10, 2012
 tags: math
+math: true
 ---
 
 Or
@@ -59,7 +60,7 @@ A [quadratic](http://en.wikipedia.org/wiki/Quadratic_equation)! We can
 solve it either with the quadratic formula, or by [completing the
 square](http://www.purplemath.com/modules/sqrquad.htm), which is my
 personal favorite. In either case, we find that there are actually two
-solutions (we should expect this with quadratics): $n = \frac{1}{2} (-1 \pm \sqrt(1241))$
+solutions (we should expect this with quadratics): $n = \frac{1}{2} (-1 \pm \sqrt{1241})$
 That is, $n$ is a little more than $17$ or a little less than $-18$ The
 negative answer doesn't make sense in the context of our problem, so our
 solution is close to 17. Again, we were looking for a whole number, and
