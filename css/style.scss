@@ -6,11 +6,12 @@
 /* import syntax highlighting (Pandoc) */
 @import "syntax";
 
-$bgcolorin: #f5f1e9;
-$bgcolorout: darken($bgcolorin, 6%);
-$fgcolor: #3e372b;
+/* Color scheme: http://colorschemedesigner.com/#4F11TdODBw0w0 */
+$bgcolorin: lighten(#A373C1, 5%);
+$bgcolorout: darken($bgcolorin, 10%);
+$fgcolor: black;
 $textcolor: $fgcolor;
-$linkcolor: #986409;
+$linkcolor: lighten(#5B257E, 10%);
 
 a {
     &:link {color:$linkcolor};
@@ -19,8 +20,17 @@ a {
     &:active {color: lighten($linkcolor, 10%)};
 }
 
+h1, h2 {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    letter-spacing: 0.01em;
+    color: white;
+}
+
 .grids {
     background-color: $bgcolorin;
+    #main {
+        margin-top: 30px;
+    }
 }
 
 html, body {
