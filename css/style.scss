@@ -6,8 +6,22 @@
 /* import syntax highlighting (Pandoc) */
 @import "syntax";
 
-$bgcolor: white;
-$fgcolor: black;
+$bgcolor: #f5f1e9;
+$fgcolor: #3e372b;
+$textcolor: #3e372b;
+$linkcolor: #986409;
+
+a {
+    &:link {color:$linkcolor};
+    &:visited {color: darken($linkcolor, 10%)};
+    &:hover {color: lighten($linkcolor, 15%)};
+    &:active {color: lighten($linkcolor, 10%)};
+}
+
+html, body {
+    color: $textcolor;
+    background-color: $bgcolor;
+}
 
 div#banner {
     text-align: left;
@@ -32,16 +46,20 @@ div#navigation {
         color: $bgcolor;
         text-decoration: none;
         background-color: $fgcolor;
+        font-size: 1.5em; /* 24 / 16 */
+        line-height: 1em; /* 24 / 24 */
+        margin-bottom: 1em; /* 24 / 24 */
         padding: 3px 10px 3px 10px;
     }
     li {
         list-style-type: none;
-        padding: 3px 0px 3px 0px;
+        padding: 8px 0px 8px 0px;
     }
 }
 
 /* don't let code blocks stretch too far */
 pre {
     overflow: scroll;
-    background-color: #eeeeee;
+    background-color: darken($bgcolor, 10%);
+    padding: 5px 15px;
 }
