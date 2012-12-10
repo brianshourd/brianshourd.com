@@ -6,9 +6,10 @@
 /* import syntax highlighting (Pandoc) */
 @import "syntax";
 
-$bgcolor: #f5f1e9;
+$bgcolorin: #f5f1e9;
+$bgcolorout: darken($bgcolorin, 6%);
 $fgcolor: #3e372b;
-$textcolor: #3e372b;
+$textcolor: $fgcolor;
 $linkcolor: #986409;
 
 a {
@@ -18,9 +19,14 @@ a {
     &:active {color: lighten($linkcolor, 10%)};
 }
 
+.grids {
+    background-color: $bgcolorin;
+}
+
 html, body {
     color: $textcolor;
-    background-color: $bgcolor;
+    background-color: $bgcolorout;
+    font-family: Palatino, “Palatino Linotype”, “Palatino LT STD”, “Book Antiqua”, Georgia, serif;
 }
 
 div#banner {
@@ -43,7 +49,7 @@ div#navigation {
     text-align: right;
     margin-top: 0px;
     a {
-        color: $bgcolor;
+        color: $bgcolorin;
         text-decoration: none;
         background-color: $fgcolor;
         font-size: 1.5em; /* 24 / 16 */
@@ -55,11 +61,23 @@ div#navigation {
         list-style-type: none;
         padding: 8px 0px 8px 0px;
     }
+    ul {
+        padding: 0px;
+    }
 }
 
 /* don't let code blocks stretch too far */
 pre {
     overflow: scroll;
-    background-color: darken($bgcolor, 10%);
+    background-color: $bgcolorout;
     padding: 5px 15px;
+}
+
+@media screen and (max-width: 700px) {
+    div#navigation {
+        a {
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+        }
+    }
 }
