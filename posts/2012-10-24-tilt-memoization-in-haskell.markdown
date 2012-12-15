@@ -1,6 +1,6 @@
 ---
-title: Thing I Learned Today: Memoization in Haskel
-lauthor: Brian Shourd
+title: Thing I Learned Today: Memoization in Haskell
+author: Brian Shourd
 date: October 24, 2012
 tags: coding, haskell
 ---
