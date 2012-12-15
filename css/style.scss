@@ -4,15 +4,63 @@
 @import "type";
 
 /* import syntax highlighting (Pandoc) */
-@import "syntax";
+/* @import "syntax"; */
 
 /* Color scheme: http://colorschemedesigner.com/#4F11TdODBw0w0 */
-$bgcolorin: lighten(#A373C1, 5%);
-$bgcolorout: darken($bgcolorin, 10%);
+$basecolor: #A373C1;
+$bgcolorin: white; /* lighten($basecolor, 35%); */
+$bgcolorpre: lighten($basecolor, 30%);
+$bgcolorout: darken($basecolor, 60%);
 $fgcolor: black;
 $textcolor: $fgcolor;
 $linkcolor: lighten(#5B257E, 10%);
+/* End colors */
 
+
+/* Start Mixins */
+/* http://lea.verou.me/2011/03/beveled-corners-negative-border-radius-with-css3-gradients/ */
+@mixin beveled-corners($amount, $bgcolor) {
+    background: $bgcolor; /* fallback */
+    background:
+        -moz-linear-gradient(45deg,  transparent $amount, $bgcolor $amount),
+        -moz-linear-gradient(135deg, transparent $amount, $bgcolor $amount),
+        -moz-linear-gradient(225deg, transparent $amount, $bgcolor $amount),
+        -moz-linear-gradient(315deg, transparent $amount, $bgcolor $amount);
+    background:
+        -o-linear-gradient(45deg,  transparent $amount, $bgcolor $amount),
+        -o-linear-gradient(135deg, transparent $amount, $bgcolor $amount),
+        -o-linear-gradient(225deg, transparent $amount, $bgcolor $amount),
+        -o-linear-gradient(315deg, transparent $amount, $bgcolor $amount);
+    background:
+        -webkit-linear-gradient(45deg,  transparent $amount, $bgcolor $amount),
+        -webkit-linear-gradient(135deg, transparent $amount, $bgcolor $amount),
+        -webkit-linear-gradient(225deg, transparent $amount, $bgcolor $amount),
+        -webkit-linear-gradient(315deg, transparent $amount, $bgcolor $amount);
+}
+
+/* Corner rounding https://gist.github.com/889463 */
+$default_rounded_amount: 5px;
+/* Round corner at position by amount. */
+@mixin round-corner($position, $amount: $default_rounded_amount) {
+    border-#{$position}-radius: $amount;
+    -webkit-border-#{$position}-radius: $amount;
+}
+
+@mixin round-corner-mozilla($position, $amount: $default_rounded_amount) {
+    -moz-border-radius-#{$position}: $amount;
+}
+
+// Round left corners by amount
+@mixin round-some-corners($amount: $default_rounded_amount) {
+    @include round-corner("top-left", $amount);
+    @include round-corner("bottom-right", $amount);
+    @include round-corner-mozilla("topleft", $amount);
+    @include round-corner-mozilla("bottomright", $amount);
+}
+/* End Mixins */
+
+
+/* Start styles */
 a {
     &:link {color:$linkcolor};
     &:visited {color: darken($linkcolor, 10%)};
@@ -23,11 +71,12 @@ a {
 h1, h2 {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
     letter-spacing: 0.01em;
-    color: white;
+    color: $textcolor;
 }
 
 .grids {
-    background-color: $bgcolorin;
+    @include beveled-corners(10px, $bgcolorin);
+    //background-color: $bgcolorin;
     #main {
         margin-top: 30px;
     }
@@ -39,12 +88,27 @@ html, body {
     font-family: Palatino, “Palatino Linotype”, “Palatino LT STD”, “Book Antiqua”, Georgia, serif;
 }
 
+div#posts {
+    ul {
+        padding-left: 0px
+    }
+    li.postitem {
+        list-style-type: none;
+        padding: 8px 0px 8px 0px;
+        a {
+            padding: 3px 10px 3px 10px;
+            text-decoration: none;
+        }
+    }
+}
+
 div#banner {
     text-align: left;
     margin-bottom: 0px;
     border-bottom: 4px solid $fgcolor;
     h1 {
         width: auto;
+        color: white;
     }
 
 }
@@ -59,6 +123,7 @@ div#navigation {
     text-align: right;
     margin-top: 0px;
     a {
+        @include round-some-corners(5px);
         color: $bgcolorin;
         text-decoration: none;
         background-color: $fgcolor;
@@ -79,7 +144,7 @@ div#navigation {
 /* don't let code blocks stretch too far */
 pre {
     overflow: scroll;
-    background-color: $bgcolorout;
+    background-color: $bgcolorpre;
     padding: 5px 15px;
 }
 
