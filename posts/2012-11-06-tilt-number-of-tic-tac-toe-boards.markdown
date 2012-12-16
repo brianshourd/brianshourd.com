@@ -81,6 +81,9 @@ And if we take away the boards with easy decisions - that is, boards
 where there is a 'take the win' or 'block the win' option, we reduce it
 still more. Only 96 boards remain. Here is the complete code:
 
+<script src="https://gist.github.com/4029312.js"></script>
+
+<!--
 ~~~{.haskell}
 import Data.List
 
@@ -181,3 +184,4 @@ getAllRealDecisions = filter (\b -> (condition1 b && condition2 b)) getAllDecisi
     condition1 b = all noWinner $ getNextBoards b
     condition2 b = all noWinner . concat . map getNextBoards . getNextBoards $ b
 ~~~
+-->
