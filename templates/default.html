@@ -6,6 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Brian Shourd - $siteTitle$</title>
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="/css/colorize.css" />
         <link rel="alternate"
               type="application/rss+xml"
               title="Brian Shourd"
@@ -14,20 +15,25 @@
     </head>
     <body>
         <div class="wrap">
-            <div id="banner" class="grid-12">
-                <h1>Brian Shourd - $siteTitle$</h1>
-            </div>            
             <div class="grids" id="main">
-                <div id="navigation" class="grid-2">
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/posts.html">Blog</a></li>
-                        <li><a href="/about.html">About</a></li>
-                        <li><a href="http://github.com/brianshourd">Github</a></li>
-                    </ul>
+                <div id="head">
+                    <div id="navigation" class="grid-3">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/posts.html">Blog</a></li>
+                            <li><a href="/about.html">About</a></li>
+                            <li><a href="http://github.com/brianshourd">Github</a></li>
+                        </ul>
+                    </div>
+                    <div id="banner" class="grid-6">
+                        <img src="/images/logo2.png">
+                    </div>            
+                    <div class="grid-3" id="location">
+                        <!-- <h1>$location$</h1> -->
+                    </div>
                 </div>
 
-                <div id="content" class="grid-10">
+                <div id="content" class="grid-12">
                     $body$
                 </div>
             </div>

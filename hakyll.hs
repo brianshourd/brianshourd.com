@@ -20,7 +20,7 @@ main = hakyll $ do
 --    match "css/*" $ do
 --        route   idRoute
 --        compile compressCssCompiler
-    match "css/style.scss" $ do
+    match (list ["css/style.scss", "css/colorize.scss"]) $ do
         route   $ setExtension ".css"
         compile $ getResourceString 
             >>> unixFilter "sass" ["-s", "--scss", "--trace", "--load-path", "css"]

@@ -7,13 +7,13 @@
 /* @import "syntax"; */
 
 /* Color scheme: http://colorschemedesigner.com/#4F11TdODBw0w0 */
-$basecolor: #A373C1;
+$basecolor: hsl(350, 39, 60);
 $bgcolorin: white; /* lighten($basecolor, 35%); */
 $bgcolorpre: lighten($basecolor, 30%);
 $bgcolorout: darken($basecolor, 60%);
 $fgcolor: black;
 $textcolor: $fgcolor;
-$linkcolor: lighten(#5B257E, 10%);
+$linkcolor: $basecolor;
 /* End colors */
 
 
@@ -102,26 +102,43 @@ div#posts {
     }
 }
 
-div#banner {
-    text-align: left;
-    margin-bottom: 0px;
+div#head {
     border-bottom: 4px solid $fgcolor;
-    h1 {
-        width: auto;
-        color: white;
-    }
+}
 
+div#banner {
+    text-align: center;
+    border: 0px;
+    padding: 20px 0px;
+    margin: 0px;
+    background-color: $bgcolorin;
+//    border-bottom: 4px solid $fgcolor;
+    img {
+        max-width: 375px;
+//        height: 234px;
+        background-color: $basecolor;
+        border: 0px;
+    }
 }
 
 div#content {
-    border-left: 4px solid $fgcolor;
-    margin-left: 0px;
-    padding-left: 10px;
+/*    border-left: 4px solid $fgcolor;
+    border-right: 4px solid $fgcolor; */
+    margin: 0px;
+    padding: 0px 40px;
+/*    margin-left: 0px;
+    padding-left: 10px; */
 }
+
+div#location h1 {
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg); 
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+} 
 
 div#navigation {
     text-align: right;
-    margin-top: 0px;
+    margin: 0px 10px;
     a {
         @include round-some-corners(5px);
         color: $bgcolorin;
@@ -150,9 +167,11 @@ pre {
 
 @media screen and (max-width: 700px) {
     div#navigation {
-        a {
-            -webkit-transform: rotate(-90deg);
-            -moz-transform: rotate(-90deg);
+        text-align: center !important;
+        li {
+            display: inline !important;
+            list-style-type: none !important;
+            padding-right: 20px !important; 
         }
     }
 }
