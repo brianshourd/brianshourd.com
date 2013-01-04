@@ -9,8 +9,13 @@ import Text.Pandoc (WriterOptions (..), HTMLMathMethod (MathJax))
 
 import Hakyll
 
+config :: HakyllConfiguration
+config = defaultHakyllConfiguration {
+    deployCommand = "rsync -avcz _site/ briansho@brianshourd.com:public_html/"
+}
+
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith config $ do
     -- Move images
     match "images/*" $ do
         route   idRoute
@@ -64,13 +69,13 @@ main = hakyll $ do
             >>> arr (checkMathOption)
             >>> arr (setField "siteTitle" "About")
             >>> applyTemplateCompiler "templates/default.html"
-            >>> relativizeUrlsCompiler    
+            >>> relativizeUrlsCompiler
             
     -- Render RSS feed
---    match  "rss.xml" $ route idRoute
---    create "rss.xml" $
---        requireAll_ "posts/*" 
---        >>> renderRss feedConfiguration
+    match  "rss.xml" $ route idRoute
+    create "rss.xml" $
+        requireAll_ "posts/*" 
+        >>> renderRss feedConfiguration
 
     -- Read templates
     match "templates/*" $ compile templateCompiler
@@ -85,14 +90,14 @@ addPostList = setFieldA "posts" $
         >>> arr mconcat
         >>> arr pageBody
 
---feedConfiguration :: FeedConfiguration
---feedConfiguration = FeedConfiguration
---    { feedTitle       = "Blog - Brian Shourd"
---    , feedDescription = "Thing I Learned Today"
---    , feedAuthorName  = "Brian Shourd"
---    , feedAuthorEmail = "brian.shourd@gmail.com"
---    , feedRoot        = "http://shou4577.uk.to:8000"
---    }
+feedConfiguration :: FeedConfiguration
+feedConfiguration = FeedConfiguration
+    { feedTitle       = "Blog - Brian Shourd"
+    , feedDescription = "Thing I Learned Today"
+    , feedAuthorName  = "Brian Shourd"
+    , feedAuthorEmail = "brian.shourd@gmail.com"
+    , feedRoot        = "http://shou4577.uk.to:8000"
+    }
 
 pandocOptions :: WriterOptions
 pandocOptions = defaultHakyllWriterOptions
