@@ -3,8 +3,10 @@ module Main where
 
 import Prelude hiding (id)
 import Control.Category (id)
-import Control.Arrow ((>>>), (***), arr)
+import Control.Arrow ((>>>), (***), (^>>), arr, second)
 import Data.Monoid (mempty, mconcat)
+import Data.Map (fromList)
+import Data.Char (ord)
 import Text.Pandoc (WriterOptions (..), HTMLMathMethod (MathJax))
 
 import Hakyll
@@ -25,18 +27,20 @@ main = hakyllWith config $ do
 --    match "css/*" $ do
 --        route   idRoute
 --        compile compressCssCompiler
-    match (list ["css/style.scss", "css/colorize.scss"]) $ do
+    match "css/style.scss" $ do
         route   $ setExtension ".css"
         compile $ getResourceString 
-            >>> unixFilter "sass" ["-s", "--scss", "--trace", "--load-path", "css"]
-            >>> arr compressCss 
+            >>> sassifyString
 
     -- Render posts
     match "posts/*" $ do
         route   $ setExtension ".html"
         compile $ pageCompilerWith defaultHakyllParserState pandocOptions
-            >>> arr (checkMathOption)
-            >>> arr (\p -> setField "description" (getField "body" p) p)
+            -- To load MathJax javascript or not
+            >>> arr checkMathOption
+            -- for RSS feed
+            >>> arr (copyBodyToField "description")
+            >>> colorizePage
             >>> applyTemplateCompiler "templates/post.html"
             >>> arr (setField "siteTitle" "Blog")
             >>> applyTemplateCompiler "templates/default.html"
@@ -45,7 +49,9 @@ main = hakyllWith config $ do
     -- Render posts list
     match  "posts.html" $ route idRoute
     create "posts.html" $ constA mempty
-        >>> arr (checkMathOption)
+        -- To load MathJax javascript or not
+        >>> arr checkMathOption
+        >>> colorizePage
         >>> arr (setField "siteTitle" "All Posts")
         >>> requireAllA "posts/*" addPostList
         >>> applyTemplateCompiler "templates/posts.html"
@@ -55,7 +61,9 @@ main = hakyllWith config $ do
     -- Index
     match  "index.html" $ route idRoute
     create "index.html" $ constA mempty
-        >>> arr (checkMathOption)
+        -- To load MathJax javascript or not
+        >>> arr checkMathOption
+        >>> colorizePage
         >>> arr (setField "siteTitle" "Home")
         >>> requireAllA "posts/*" (id *** arr (take 3 . reverse . chronological) >>> addPostList)
         >>> applyTemplateCompiler "templates/index.html"
@@ -66,7 +74,9 @@ main = hakyllWith config $ do
     match "about.markdown" $ do
         route   $ setExtension ".html"
         compile $ pageCompiler
-            >>> arr (checkMathOption)
+            -- To load MathJax javascript or not
+            >>> arr checkMathOption
+            >>> colorizePage
             >>> arr (setField "siteTitle" "About")
             >>> applyTemplateCompiler "templates/default.html"
             >>> relativizeUrlsCompiler
@@ -80,6 +90,20 @@ main = hakyllWith config $ do
     -- Read templates
     match "templates/*" $ compile templateCompiler
 
+feedConfiguration :: FeedConfiguration
+feedConfiguration = FeedConfiguration
+    { feedTitle       = "Blog - Brian Shourd"
+    , feedDescription = "Thing I Learned Today"
+    , feedAuthorName  = "Brian Shourd"
+    , feedAuthorEmail = "brian.shourd@gmail.com"
+    , feedRoot        = "http://www.brianshourd.com/rss.xml"
+    }
+
+pandocOptions :: WriterOptions
+pandocOptions = defaultHakyllWriterOptions
+    { writerHTMLMathMethod = MathJax ""
+    }
+
 -- | Auxiliary compiler: generate a post list from a list of given posts, and
 -- add it to the current page under @$posts@
 --
@@ -90,19 +114,25 @@ addPostList = setFieldA "posts" $
         >>> arr mconcat
         >>> arr pageBody
 
-feedConfiguration :: FeedConfiguration
-feedConfiguration = FeedConfiguration
-    { feedTitle       = "Blog - Brian Shourd"
-    , feedDescription = "Thing I Learned Today"
-    , feedAuthorName  = "Brian Shourd"
-    , feedAuthorEmail = "brian.shourd@gmail.com"
-    , feedRoot        = "http://shou4577.uk.to:8000"
-    }
+-- Take in a string (url is used), and perform a
+-- simple hash to get a valid hsl color for sass
+hashColor :: String -> String
+hashColor s = "hsl(" ++ hash ++ ", 39, 60)" where
+    hash = show $ (flip mod) 360 $ sum . map ord $ s
 
-pandocOptions :: WriterOptions
-pandocOptions = defaultHakyllWriterOptions
-    { writerHTMLMathMethod = MathJax ""
-    }
+-- Run sass, then compress
+sassifyString :: Compiler String String
+sassifyString = unixFilter "sass" ["-s", "--scss", "--trace", "--load-path", "css"]
+    >>> arr compressCss
+
+-- Fill in the $css$ option with colors!
+colorizePage :: Compiler (Page String) (Page String)
+colorizePage = requireA "templates/colorize.scss" $
+    arr (\(p, t) -> (p,pageFromTemplate t $ getField "url" p))
+        >>> second (pageBody ^>> sassifyString)
+        >>> arr (uncurry . flip $ setField "colorize")
+        where
+            pageFromTemplate t s = applyTemplate t $ fromMap . fromList $ [("color", hashColor s)]
 
 checkMathOption :: Page String -> Page String
 checkMathOption page =
