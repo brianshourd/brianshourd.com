@@ -18,26 +18,6 @@ $linkcolor: $basecolor;
 
 
 /* Start Mixins */
-/* http://lea.verou.me/2011/03/beveled-corners-negative-border-radius-with-css3-gradients/ */
-@mixin beveled-corners($amount, $bgcolor) {
-    background: $bgcolor; /* fallback */
-    background:
-        -moz-linear-gradient(45deg,  transparent $amount, $bgcolor $amount),
-        -moz-linear-gradient(135deg, transparent $amount, $bgcolor $amount),
-        -moz-linear-gradient(225deg, transparent $amount, $bgcolor $amount),
-        -moz-linear-gradient(315deg, transparent $amount, $bgcolor $amount);
-    background:
-        -o-linear-gradient(45deg,  transparent $amount, $bgcolor $amount),
-        -o-linear-gradient(135deg, transparent $amount, $bgcolor $amount),
-        -o-linear-gradient(225deg, transparent $amount, $bgcolor $amount),
-        -o-linear-gradient(315deg, transparent $amount, $bgcolor $amount);
-    background:
-        -webkit-linear-gradient(45deg,  transparent $amount, $bgcolor $amount),
-        -webkit-linear-gradient(135deg, transparent $amount, $bgcolor $amount),
-        -webkit-linear-gradient(225deg, transparent $amount, $bgcolor $amount),
-        -webkit-linear-gradient(315deg, transparent $amount, $bgcolor $amount);
-}
-
 /* Corner rounding https://gist.github.com/889463 */
 $default_rounded_amount: 5px;
 /* Round corner at position by amount. */
@@ -75,7 +55,6 @@ h1, h2 {
 }
 
 .grids {
-    @include beveled-corners(10px, $bgcolorin);
     //background-color: $bgcolorin;
     #main {
         margin-top: 30px;
