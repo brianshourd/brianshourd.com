@@ -96,7 +96,7 @@ feedConfiguration = FeedConfiguration
     , feedDescription = "Thing I Learned Today"
     , feedAuthorName  = "Brian Shourd"
     , feedAuthorEmail = "brian.shourd@gmail.com"
-    , feedRoot        = "http://www.brianshourd.com/rss.xml"
+    , feedRoot        = "http://brianshourd.com/"
     }
 
 pandocOptions :: WriterOptions
