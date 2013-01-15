@@ -80,7 +80,7 @@ Here's the relevant code:
 ~~~{.haskell}
 -- hakyll.hs
 ...
--- Fill in the $$css$$ option with colors!
+-- Fill in the $$colorize$$ option with colors!
 colorizePage :: Compiler (Page String) (Page String)
 colorizePage = requireA "templates/colorize.scss" $
     arr (\(p, t) -> (p,pageFromTemplate t $ getField "url" p))
@@ -123,14 +123,15 @@ String)`. Remember that a `Compiler` is an `Arrow`, so essentially an
 abstraction of a function `(Page String, Template) -> (Page String)`.
 We'll do this in several steps:
 
-1. Turn the template (`colorize.scss`) into a page with the proper `$$color$$`
-   field, which we get from the first page.
+1. Turn the template (`colorize.scss`) into a page by applying the
+   proper the proper value of `$$color$$`, which we get by hashing the
+   url of the first page.
 
         arr (\(p, t) -> (p,pageFromTemplate t $ getField "url" p))
         :: Compiler (Page String, Template) (Page String, Page String)
 
-2. Run the filled-in template through `sass` to get a plain string of
-   css
+2. Run the filled-in template (the second part) through `sass` to get a plain string of
+   css. Meanwhile, don't touch the original page.
 
         >>> second (pageBody ^>> sassifyString)
         :: Compiler (Page String, Page String) (Page String, String)
@@ -141,17 +142,31 @@ We'll do this in several steps:
         >>> arr (uncurry . flip $ setField "colorize")
         :: Compiler (Page String, String) (Page String)
 
-The helper functions just assist. The `sassifyString` function runs a
-string through sass, then compresses the resulting css. The
-`pageFromTemplate` function just creates a blank page from a template
-with the `$$css$$` field set. The `hashColor` function is a very basic
-hash on the `$$url$$` field of the page, giving us a color in hsl format
-with hashed hue, and fixed saturation and luminosity (so we don't get
-colors that are too dark or light).
+There are helper functions to assist with this, of course. The
+`sassifyString` function runs a string through sass, then compresses the
+resulting css. The `pageFromTemplate` function creates a blank page
+from a template with the `$$css$$` field set. The `hashColor` function
+is a very basic hash on the `$$url$$` field of the page, giving us a
+color in hsl format with hashed hue, and fixed saturation and luminosity
+(so we don't get colors that are too dark or light).
 
 That's all there is to it! I can just throw this compiler into the
-compilation toolchain for all of my pages and I get specialized
+compilation tool chain for all of my pages and I get specialized
 individual css colors for every page.
+
+~~~{.haskell}
+-- hakyll.hs
+...
+    match "posts/*" $ do
+        route   $ setExtension ".html"
+        compile $ pageCompilerWith defaultHakyllParserState pandocOptions
+            >>> colorizePage
+            >>> applyTemplateCompiler "templates/post.html"
+            >>> arr (setField "siteTitle" "Blog")
+            >>> applyTemplateCompiler "templates/default.html"
+            >>> relativizeUrlsCompiler
+...
+~~~
 
 I had a ton of fun writing this code, even though the result is
 basically not noticeable (or really desirable - it's kind of jarring to
