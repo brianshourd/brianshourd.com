@@ -118,7 +118,7 @@ addPostList = setFieldA "posts" $
 -- simple hash to get a valid hsl color for sass
 hashColor :: String -> String
 hashColor s = "hsl(" ++ hash ++ ", 39, 60)" where
-    hash = show $ (flip mod) 360 $ sum . map ord $ s
+    hash = show . (flip mod) 360 . sum . map ord $ s
 
 -- Run sass, then compress
 sassifyString :: Compiler String String

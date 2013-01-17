@@ -5,6 +5,12 @@ date: January 7, 2013
 tags: coding, haskell, hakyll
 ---
 
+Edit: I have good news and bad news: the good news is that Hakyll moved
+to version 4! The bad news is that it happened less than 10 days after
+writing this blog post, which applies only to 3.X. I'll get straight to
+work updating this method for Hakyll 4, but until then, know that what
+is stated below doesn't work with the newest version of Hakyll. Sad.
+
 As I mess more and more with my website, I find that I'm having trouble
 deciding on a color scheme. I like mostly black and white, with a single
 accent color on which all else is built (including shades of that
