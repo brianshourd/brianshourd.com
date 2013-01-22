@@ -159,9 +159,7 @@ colorize item = do
     let color = hashColor . itemBody $ item
     cssItem <- makeItem "" 
         >>= loadAndApplyTemplate "templates/colorize.scss" (constField "color" color)
-        >>= withItemBody (unixFilter "sass" ["-s", "--scss", "--trace", "--load-path", "css"])
-        >>= return . fmap compressCss
---        >>= sassify
+        >>= sassify
     return $ itemBody cssItem
 
 -- Only load mathjax if there is actually math on the page, indicated in
