@@ -1,25 +1,25 @@
-$basecolor: $color$;
-$bgcolorpre: lighten($basecolor, 30%);
-$bgcolorout: darken($basecolor, 60%);
-$linkcolor: $basecolor;
+$$basecolor: $color$;
+$$bgcolorpre: lighten($$basecolor, 30%);
+$$bgcolorout: darken($$basecolor, 60%);
+$$linkcolor: $$basecolor;
 
 a {
-    &:link {color:$linkcolor};
-    &:visited {color: darken($linkcolor, 10%)};
-    &:hover {color: lighten($linkcolor, 15%)};
-    &:active {color: lighten($linkcolor, 10%)};
+    &:link {color:$$linkcolor};
+    &:visited {color: darken($$linkcolor, 10%)};
+    &:hover {color: lighten($$linkcolor, 15%)};
+    &:active {color: lighten($$linkcolor, 10%)};
 }
 
 html, body {
-    background-color: $bgcolorout;
+    background-color: $$bgcolorout;
 }
 
 div#banner {
     img {
-        background-color: $basecolor;
+        background-color: $$basecolor;
     }
 }
 
 pre {
-    background-color: $bgcolorpre;
+    background-color: $$bgcolorpre;
 }
