@@ -1,0 +1,38 @@
+---
+title: Hakyll 4
+author: Brian Shourd
+date: January 22, 2013
+tags: coding, haskell, hakyll
+---
+
+Today I finished upgrading my blog from Hakyll 3 to [Hakyll
+4](https://github.com/jaspervdj/jaspervdj). I'm quite excited.
+
+The move wasn't nearly as hard as I thought that it would be. [Jasper
+Van der Jeugt](http://jaspervdj.be/) (the creator of Hakyll) has a great
+[guide to
+upgrading](http://jaspervdj.be/hakyll/tutorials/hakyll-3-to-hakyll4-migration-guide.html)
+which answered pretty much all my questions. The only real work was to
+get working two things that I had customized over a (more or less)
+default site.
+
+1. On-demand [Mathjax](http://mathjax.org) loading based on metadata and
+2. Different colors for every page based on a hash of the page's
+   contents.
+
+Both of these turned out to be much easier in Hakyll 4 than they were in
+Hakyll 3, thanks to the new `Monad` structure of `Compiler`s (vs the old
+`Arrow` structure). It might also have something to do with the fact
+that I only figure out how to do the color thing [a few days
+ago](2013-01-07-different-color-every-page-hakyll.html), so the general
+idea was much more well-defined and fresh in my head than it was before.
+
+In any case, check out the [code for the site on
+Github](http://jaspervdj.be/hakyll/tutorials/hakyll-3-to-hakyll4-migration-guide.html)
+if you are interested in how I accomplished those things. I don't think
+that either is worth a full blog post this time, but I might change my
+mind when next I run out of things to write about.
+
+Thanks to Jasper for this great update, and for a fantastic platform to
+begin with! I've got to convert the other website that I'm maintaining
+to Hakyll next.
