@@ -1,22 +1,29 @@
 {-# LANGUAGE OverloadedStrings #-}
+
+{-
+Hakyll source code for brianshourd.com
+
+Author: Brian Shourd
+License: BSD3
+
+The vast majority of this was taken with minor (or no) alterations from
+jaspervdj's website: <https://github.com/jaspervdj/jaspervdj>. However,
+I did come up with (and I'm kind of proud of) the code for colorizing
+the page based on a hash of the page, and the code for including the
+Mathjax javascript based on a metadata flag. The latter could easily be
+reused to insert arbitrary content based on a metadata flag.
+
+See the functions `colorize` and `mathjax` for the implementations,  if you are interested.
+-}
 module Main where
 
-import Prelude hiding (id)
-import Control.Category (id)
 import Control.Applicative ((<$>))
-import Control.Arrow ((>>>), (***), (^>>), arr, second)
-import Data.Maybe (fromMaybe)
-import Data.Monoid (mempty, mconcat, (<>))
-import Data.Map (fromList, lookup)
 import Data.Char (ord)
+import Data.Map (lookup)
+import Data.Monoid ((<>), mconcat)
 import Text.Pandoc (WriterOptions (..), HTMLMathMethod (MathJax))
 
 import Hakyll
-
-config :: Configuration
-config = defaultConfiguration {
-    deployCommand = "rsync -avcz _site/ briansho@brianshourd.com:public_html/"
-}
 
 main :: IO ()
 main = hakyllWith config $ do
@@ -28,8 +35,7 @@ main = hakyllWith config $ do
     -- Compress CSS
     match "css/style.scss" $ do
         route   $ setExtension ".css"
-        compile $ getResourceString
-            >>= sassify
+        compile $ getResourceString >>= sassify
 
     -- Buid Tags
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
@@ -39,29 +45,23 @@ main = hakyllWith config $ do
         route   $ setExtension ".html"
         compile $ do
             pandocCompilerWith defaultHakyllReaderOptions pandocOptions
-            >>= saveSnapshot "content"
+            >>= saveSnapshot "content" -- ^ For RSS
             >>= loadAndApplyTemplate "templates/post.html"
                     (postCtx tags <> defaultContext)
-            >>= loadAndApplyTemplate "templates/default.html" 
-                    (constField "siteTitle" "Blog" <> topCtx 
-                        <> defaultContext)
-            >>= relativizeUrls
+            >>= finish "Blog"
 
     -- Render posts page
     create ["posts.html"] $ do
         route idRoute
-        compile $ do
-            list <- postList tags "posts/*" recentFirst
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html"
-                        (constField "posts" list <>
-                            defaultContext)
-                >>= loadAndApplyTemplate "templates/default.html"
-                        (constField "siteTitle" "All Posts" 
-                            <> topCtx <> defaultContext)
-                >>= relativizeUrls
+        compile $ postPage tags "All Posts" "posts/*"
 
-    -- Index
+     -- Create pages for tags
+    tagsRules tags $ \tag pattern -> do
+        let title = "Tag: " ++ tag
+        route idRoute
+        compile $ postPage tags title pattern
+
+   -- Index
     create ["index.html"] $ do
         route idRoute
         compile $ do
@@ -69,34 +69,12 @@ main = hakyllWith config $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/index.html" 
                         (constField "posts" list <> defaultContext)
-                >>= loadAndApplyTemplate "templates/default.html"
-                        (constField "siteTitle" "Home" <> topCtx 
-                            <> defaultContext)
-                >>= relativizeUrls
-
-    -- Create pages for tags, copied from jaspervd
-    tagsRules tags $ \tag pattern -> do
-        let title = "Tag: " ++ tag
-        -- Copied from posts, need to refactor
-        route idRoute
-        compile $ do
-            list <- postList tags pattern recentFirst
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html"
-                        (constField "posts" list <> defaultContext)
-                >>= loadAndApplyTemplate "templates/default.html" 
-                        (constField "siteTitle" title <> topCtx 
-                            <> defaultContext)
-                >>= relativizeUrls
+                >>= finish "Home"
 
     -- About
     match "about.markdown" $ do
         route   $ setExtension ".html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/default.html" 
-                    (constField "siteTitle" "About" <> topCtx 
-                        <> defaultContext)
-            >>= relativizeUrls
+        compile $ pandocCompiler >>= finish "About"
     
     -- Rss Feed
     create ["rss.xml"] $ do
@@ -109,6 +87,14 @@ main = hakyllWith config $ do
 
     -- Read templates
     match "templates/*" $ compile templateCompiler
+
+-- ==========================
+-- Options and Configurations
+-- ==========================
+config :: Configuration
+config = defaultConfiguration {
+    deployCommand = "rsync -avcz _site/ briansho@brianshourd.com:public_html/"
+}
 
 feedConfiguration :: FeedConfiguration
 feedConfiguration = FeedConfiguration
@@ -124,6 +110,9 @@ pandocOptions = defaultHakyllWriterOptions
     { writerHTMLMathMethod = MathJax ""
     }
 
+-- =================
+-- Context functions
+-- =================
 postCtx :: Tags -> Context String
 postCtx tags = mconcat
     [ dateField "date" "%B %e, %Y"
@@ -131,12 +120,16 @@ postCtx tags = mconcat
     , defaultContext
     ]
 
-topCtx :: Context String
-topCtx = mconcat
+topCtx :: String -> Context String
+topCtx title = mconcat
     [ field "mathjax" mathjax
     , field "colorize" colorize
+    , constField "siteTitle" title
     ]
 
+-- ===================
+-- Auxiliary Functions
+-- ===================
 postList :: Tags -> Pattern -> ([Item String] -> [Item String]) -> Compiler String
 postList tags pattern preprocess' = do
     postItemTpl <- loadBody "templates/postitem.html"
@@ -163,10 +156,27 @@ colorize item = do
     return $ itemBody cssItem
 
 -- Only load mathjax if there is actually math on the page, indicated in
--- the metadata
+-- the metadata option "math"
 mathjax :: Item String -> Compiler String
 mathjax item = do
     metadata <- getMetadata (itemIdentifier item)
     return $ case Data.Map.lookup "math" metadata of
-        Nothing -> ""
-        Just _  -> "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\" />"
+        Just "true" -> "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\" />"
+        otherwise   -> ""
+
+-- Make a page from a list of posts. Was duplicated code, so refactored.
+postPage :: Tags -> String -> Pattern -> Compiler (Item String)
+postPage tags title pattern = do
+    list <- postList tags pattern recentFirst
+    makeItem ""
+        >>= loadAndApplyTemplate "templates/posts.html"
+                (constField "posts" list <> constField "title" title <>
+                    defaultContext)
+        >>= finish title
+
+-- Nearly everything loads the last template with the same options, only
+-- a different title, then relativizes urls. Refactor it away.
+finish :: String -> Item String -> Compiler (Item String)
+finish title item = loadAndApplyTemplate 
+        "templates/default.html" (topCtx title <> defaultContext) item
+    >>= relativizeUrls
