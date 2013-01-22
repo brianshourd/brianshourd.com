@@ -20,7 +20,7 @@ returns a value of type `a`. In fact, it should find a _fixed point_ of
 
 ~~~{.haskell}
 f (fix f) = fix f
-~~~{.haskell}
+~~~
 
 Look familiar? Yeah, that's just the very definition of `fix`.
 
