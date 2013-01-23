@@ -34,7 +34,7 @@ all of my color information.
 ~~~{.css}
 /* colorize.scss */
 
-$basecolor: $$color$$;
+$basecolor: $color$;
 $bgcolorpre: lighten($basecolor, 30%);
 $bgcolorout: darken($basecolor, 60%);
 $linkcolor: $basecolor;
@@ -62,7 +62,7 @@ pre {
 ~~~
 
 You can see that it is a Hakyll template with only a single piece of
-metadata: `$$color$$`.
+metadata: `$color$`.
 
 Now, how to attach this to every single page? Since every page will need
 a different rendered version of this stylesheet, it makes perfect sense
@@ -74,7 +74,7 @@ to my `default.html` template:
 ...
 <head>
     ...
-    <style type="text/css">$$colorize$$</style>
+    <style type="text/css">$colorize$</style>
 </head>
 ...
 ~~~
@@ -90,7 +90,7 @@ Here's the relevant code:
 ~~~{.haskell}
 -- hakyll.hs
 ...
--- Fill in the $$colorize$$ option with colors!
+-- Fill in the $colorize$ option with colors!
 colorizePage :: Compiler (Page String) (Page String)
 colorizePage = requireA "templates/colorize.scss" $
     arr (\(p, t) -> (p,pageFromTemplate t $ getField "url" p))
@@ -118,7 +118,7 @@ the hardest time figuring them out. Let me explain how they work.
 Firstly, I knew that I wanted a `Compiler (Page String) (Page String)`,
 so that I could just interject it into each page's compilation arrow.
 That's the type signature that makes sense - we want to take a page, and
-add the `$$colorize$$` metadata for when we apply the `default.html`
+add the `$colorize$` metadata for when we apply the `default.html`
 template. To do that, we'll need to pull in the `colorize.scss`
 template, which means using one of `require` or `requireA`, both Hakyll
 functions. I used `requireA` since I'm constructing a `Compiler`. The
@@ -134,7 +134,7 @@ abstraction of a function `(Page String, Template) -> (Page String)`.
 We'll do this in several steps:
 
 1. Turn the template (`colorize.scss`) into a page by applying the
-   proper the proper value of `$$color$$`, which we get by hashing the
+   proper the proper value of `$color$`, which we get by hashing the
    url of the first page.
 
         arr (\(p, t) -> (p,pageFromTemplate t $ getField "url" p))
@@ -147,7 +147,7 @@ We'll do this in several steps:
         :: Compiler (Page String, Page String) (Page String, String)
 
 3. Take the resulting string and plug it into the page as the
-   `$$colorize$$` field.
+   `$colorize$` field.
 
         >>> arr (uncurry . flip $ setField "colorize")
         :: Compiler (Page String, String) (Page String)
@@ -155,8 +155,8 @@ We'll do this in several steps:
 There are helper functions to assist with this, of course. The
 `sassifyString` function runs a string through sass, then compresses the
 resulting css. The `pageFromTemplate` function creates a blank page
-from a template with the `$$css$$` field set. The `hashColor` function
-is a very basic hash on the `$$url$$` field of the page, giving us a
+from a template with the `$css$` field set. The `hashColor` function
+is a very basic hash on the `$url$` field of the page, giving us a
 color in hsl format with hashed hue, and fixed saturation and luminosity
 (so we don't get colors that are too dark or light).
 
