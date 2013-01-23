@@ -156,7 +156,10 @@ colorize item = do
     return $ itemBody cssItem
 
 -- Only load mathjax if there is actually math on the page, indicated in
--- the metadata option "math"
+-- the metadata option "math: true"
+-- Originally found on John Lenz's blog:
+-- http://blog.wuzzeb.org/posts/2012-06-08-hakyll-and-latex.html
+-- and adapted to work with Hakyll 4
 mathjax :: Item String -> Compiler String
 mathjax item = do
     metadata <- getMetadata (itemIdentifier item)

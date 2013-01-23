@@ -10,11 +10,12 @@
 $basecolor: hsl(250, 39, 60);
 $bgcolorin: white; /* lighten($basecolor, 35%); */
 $bgcolorpre: lighten($basecolor, 30%);
-$bgcolorout: darken($basecolor, 60%);
+$bgcolorout: darken($basecolor, 50%);
 $fgcolor: black;
 $textcolor: $fgcolor;
-$linkcolor: $basecolor;
+$linkcolor: darken($basecolor, 15%);
 /* End colors */
+
 
 
 /* Start Mixins */
@@ -42,10 +43,13 @@ $default_rounded_amount: 5px;
 
 /* Start styles */
 a {
-    &:link {color:$linkcolor};
-    &:visited {color: darken($linkcolor, 10%)};
-    &:hover {color: lighten($linkcolor, 15%)};
-    &:active {color: lighten($linkcolor, 10%)};
+    &:link {color:$linkcolor;}
+    &:visited {color: darken($linkcolor, 20%);}
+    &:hover {
+        text-decoration: none;
+        background-color: $bgcolorpre;
+    }
+    &:active {color: lighten($linkcolor, 10%);}
 }
 
 h1, h2 {
@@ -91,7 +95,6 @@ div#banner {
     padding: 20px 0px;
     margin: 0px;
     background-color: $bgcolorin;
-//    border-bottom: 4px solid $fgcolor;
     img {
         max-width: 375px;
 //        height: 234px;
@@ -101,19 +104,9 @@ div#banner {
 }
 
 div#content {
-/*    border-left: 4px solid $fgcolor;
-    border-right: 4px solid $fgcolor; */
     margin: 0px;
     padding: 0px 40px;
-/*    margin-left: 0px;
-    padding-left: 10px; */
 }
-
-div#location h1 {
-    -webkit-transform: rotate(90deg); 
-    -moz-transform: rotate(90deg); 
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-} 
 
 div#navigation {
     text-align: right;
