@@ -5,7 +5,11 @@ date: January 7, 2013
 tags: coding, haskell, hakyll
 ---
 
-Edit: I have good news and bad news: the good news is that Hakyll moved
+**Edit**: I've finished, the site is now built on Hakyll 4. Check out
+the [source on GitHub](https://github.com/brianshourd/brianshourd.com)
+to see the updated colorizing code.
+
+**Edit**: I have good news and bad news: the good news is that Hakyll moved
 to version 4! The bad news is that it happened less than 10 days after
 writing this blog post, which applies only to 3.X. I'll get straight to
 work updating this method for Hakyll 4, but until then, know that what
