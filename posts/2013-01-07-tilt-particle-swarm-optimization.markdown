@@ -5,6 +5,14 @@ date: January 7, 2013
 tags: coding, haskell
 ---
 
+**Edit:** As sometimes happens when I try to learn a thing quickly, I
+made a mistake here. I could correct it and pretend that it never
+happened, but that wouldn't be very honest with myself now would it? In
+the mean time, I *did* write a PSO library for haskell, and I called it
+[Calypso](https://github.com/brianshourd/haskell-Calypso). Please check
+it out if you are interested. I may get around to re-explaining PSO some
+day, and I'll post the link here when I do.
+
 Today I learned about [Particle Swarm
 Optimization](http://en.wikipedia.org/wiki/Particle_swarm_optimization),
 a technique for finding minimums/maximums of certain types of functions.

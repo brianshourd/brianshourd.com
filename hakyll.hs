@@ -13,7 +13,7 @@ the page based on a hash of the page, and the code for including the
 Mathjax javascript based on a metadata flag. The latter could easily be
 reused to insert arbitrary content based on a metadata flag.
 
-See the functions `colorize` and `mathjax` for the implementations,  if you are interested.
+See the functions `colorize` and `mathjax` for the implementations,  if you are interested. 
 -}
 module Main where
 

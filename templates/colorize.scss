@@ -1,7 +1,7 @@
 $$basecolor: $color$;
 $$bgcolorpre: lighten($$basecolor, 30%);
 $$bgcolorout: darken($$basecolor, 50%);
-$$linkcolor: darken($$basecolor, 20%);
+$$linkcolor: darken($$basecolor, 15%);
 
 a {
     &:link {color:$$linkcolor;}

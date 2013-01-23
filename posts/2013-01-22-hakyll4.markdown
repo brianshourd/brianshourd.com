@@ -23,7 +23,7 @@ default site.
 Both of these turned out to be much easier in Hakyll 4 than they were in
 Hakyll 3, thanks to the new `Monad` structure of `Compiler`s (vs the old
 `Arrow` structure). It might also have something to do with the fact
-that I only figure out how to do the color thing [a few days
+that I only figured out how to do the color thing [a few days
 ago](2013-01-07-different-color-every-page-hakyll.html), so the general
 idea was much more well-defined and fresh in my head than it was before.
 
