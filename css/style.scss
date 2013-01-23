@@ -52,6 +52,18 @@ a {
     &:active {color: lighten($linkcolor, 10%);}
 }
 
+.figure {
+    img {
+        max-width: 75%;
+        display: block;
+        margin: 10px auto;
+    }
+    p {
+        text-align: center;
+        font-style: italic;
+    }
+}
+
 h1, h2 {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
     letter-spacing: 0.01em;
