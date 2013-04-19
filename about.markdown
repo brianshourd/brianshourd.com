@@ -5,6 +5,8 @@ mathematics. Specifically, I'm studying [Algebraic
 Groups](http://en.wikipedia.org/wiki/Algebraic_group) and [Lie
 Algebras](http://en.wikipedia.org/wiki/Lie_algebra) under Dr. Samuel Evens.
 
+![Myself](/images/headshot.jpg)
+
 When I'm done next year, I plan on looking for a job in the software
 engineering industry. I love solving problems and learning new things,
 and I think that a position in a new startup is an environment where I
