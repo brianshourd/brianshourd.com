@@ -4,7 +4,7 @@
 Hakyll source code for brianshourd.com
 
 Author: Brian Shourd
-License: BSD3
+License: BSD
 
 The vast majority of this was taken with minor (or no) alterations from
 jaspervdj's website: <https://github.com/jaspervdj/jaspervdj>. However,

@@ -87,7 +87,6 @@ h1, h2 {
 html, body {
     color: $textcolor;
     background-color: $bgcolorout;
-    font-family: Palatino, “Palatino Linotype”, “Palatino LT STD”, “Book Antiqua”, Georgia, serif;
 }
 
 div#posts {
@@ -157,6 +156,7 @@ pre {
     padding: 5px 15px;
 }
 
+/* Not working yet
 @media screen and (max-width: 700px) {
     div#navigation {
         text-align: center !important;
@@ -167,3 +167,4 @@ pre {
         }
     }
 }
+*/
