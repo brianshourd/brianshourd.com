@@ -65,7 +65,7 @@ main = hakyllWith config $ do
     create ["index.html"] $ do
         route idRoute
         compile $ do
-            list <- postList tags "posts/*" $ take 5 . recentFirst
+            list <- postList tags "posts/*" $ fmap (take 5) . recentFirst
             makeItem ""
                 >>= loadAndApplyTemplate "templates/index.html" 
                         (constField "posts" list <> defaultContext)
@@ -80,10 +80,10 @@ main = hakyllWith config $ do
     create ["rss.xml"] $ do
         route idRoute
         compile $ do
-            loadAllSnapshots "posts/*" "content"
-                >>= return . take 10 . recentFirst
-                >>= renderAtom feedConfiguration 
-                        (bodyField "description" <> defaultContext)
+            posts <- fmap (take 10) . recentFirst 
+                =<< loadAllSnapshots "posts/*" "content"
+            renderRss feedConfiguration (bodyField "description" <>
+                defaultContext) posts
 
     -- Read templates
     match "templates/*" $ compile templateCompiler
@@ -130,10 +130,11 @@ topCtx title = mconcat
 -- ===================
 -- Auxiliary Functions
 -- ===================
-postList :: Tags -> Pattern -> ([Item String] -> [Item String]) -> Compiler String
+postList :: Tags -> Pattern -> ([Item String] -> Compiler [Item String]) -> Compiler String
 postList tags pattern preprocess' = do
     postItemTpl <- loadBody "templates/postitem.html"
-    posts       <- preprocess' <$> loadAll pattern
+    posts'      <- loadAll pattern
+    posts       <- preprocess' posts'
     applyTemplateList postItemTpl (postCtx tags) posts
 
 -- Take in a string and perform a simple hash to get a valid hsl color
