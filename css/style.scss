@@ -1,10 +1,15 @@
+/* File: style.scss
+ * Main import - includes other requirements
+ * Author: Brian Shourd
+ */
+
 /* Import everyting from Toast */
 @import "reset";
 @import "grid";
 @import "type";
 
 /* import syntax highlighting (Pandoc) */
-/* @import "syntax"; */
+// @import "syntax";
 
 /* Color scheme: http://colorschemedesigner.com/#4F11TdODBw0w0 */
 $basecolor: hsl(250, 39, 60);
