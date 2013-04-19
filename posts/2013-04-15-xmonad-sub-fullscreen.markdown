@@ -5,6 +5,9 @@ date: April 15, 2013
 tags: coding, haskell
 ---
 
+*Edit:* I've slightly updated this code and [put it on
+github](http://github.com/brianshourd/xmonad-layout-padding).
+
 I recently got a new Macbook Air, thus joining the ranks of people who
 own laptops (previously, I was using an iPad with external keyboard and
 doing all my work in iSSH on a home server). Naturally, the first thing
