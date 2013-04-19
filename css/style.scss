@@ -4,9 +4,7 @@
  */
 
 /* Import everyting from Toast */
-@import "reset";
-@import "grid";
-@import "type";
+@import "toast";
 
 /* import syntax highlighting (Pandoc) */
 // @import "syntax";
@@ -73,9 +71,13 @@ h1, h2 {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
     letter-spacing: 0.01em;
     color: $textcolor;
+    &.post-title {
+        font-size: 40px;
+        font-size: 2rem;
+    }
 }
 
-.grids {
+.grid {
     background-color: $bgcolorin;
     #main {
         margin-top: 30px;
@@ -113,7 +115,7 @@ div#banner {
     margin: 0px;
     background-color: $bgcolorin;
     img {
-        max-width: 375px;
+        max-width: 350px;
 //        height: 234px;
         background-color: $basecolor;
         border: 0px;
@@ -121,13 +123,14 @@ div#banner {
 }
 
 div#content {
-    margin: 0px;
+    margin: 20px auto;
     padding: 0px 40px;
 }
 
 div#navigation {
     text-align: right;
     margin: 0px 10px;
+    padding: 20px 0px;
     a {
         @include round-some-corners(5px);
         color: $bgcolorin;

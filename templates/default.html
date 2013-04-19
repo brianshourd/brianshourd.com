@@ -15,10 +15,10 @@
         <style type="text/css">$colorize$</style>
     </head>
     <body>
-        <div class="wrap">
-            <div class="grids" id="main">
+        <div class="container" role="main">
+            <div class="grid" id="main">
                 <div id="head">
-                    <div id="navigation" class="grid-3">
+                    <div class="unit one-of-four" id="navigation">
                         <ul>
                             <li><a href="/">Home</a></li>
                             <li><a href="/posts.html">Blog</a></li>
@@ -26,14 +26,14 @@
                             <li><a href="http://github.com/brianshourd">Github</a></li>
                         </ul>
                     </div>
-                    <div id="banner" class="grid-6">
+                    <div class="unit one-of-two" id="banner">
                         <img src="/images/logo2.png">
                     </div>            
-                    <div class="grid-3" id="location">
+                    <div class="unit one-of-four" id="location">
                     </div>
                 </div>
 
-                <div id="content" class="grid-12">
+                <div class="unit span-grid" id="content">
                     $body$
                 </div>
             </div>
