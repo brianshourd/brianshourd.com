@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-{-
-Hakyll source code for brianshourd.com
+{- Hakyll source code for brianshourd.com
 
 Author: Brian Shourd
 License: BSD
@@ -30,6 +29,17 @@ main = hakyllWith config $ do
     -- Move images
     match "images/*" $ do
         route   idRoute
+        compile copyFileCompiler
+
+    -- Move static files
+    match "static/*" $ do
+        route $ gsubRoute "static/" (const "")
+        compile copyFileCompiler
+    match "static/pso/*" $ do
+        route $ gsubRoute "static/" (const "")
+        compile copyFileCompiler
+    match "static/resume/*" $ do
+        route $ gsubRoute "static/" (const "")
         compile copyFileCompiler
 
     -- Compress CSS
@@ -75,7 +85,11 @@ main = hakyllWith config $ do
     match "about.markdown" $ do
         route   $ setExtension ".html"
         compile $ pandocCompiler >>= finish "About"
-    
+
+    match "projects.markdown" $ do
+        route   $ setExtension ".html"
+        compile $ pandocCompiler >>= finish "Projects"
+
     -- Rss Feed
     create ["rss.xml"] $ do
         route idRoute
