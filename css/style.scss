@@ -41,6 +41,12 @@ $default_rounded_amount: 5px;
     @include round-corner-mozilla("topleft", $amount);
     @include round-corner-mozilla("bottomright", $amount);
 }
+@mixin round-other-corners($amount: $default_rounded_amount) {
+    @include round-corner("top-right", $amount);
+    @include round-corner("bottom-left", $amount);
+    @include round-corner-mozilla("topright", $amount);
+    @include round-corner-mozilla("bottomleft", $amount);
+}
 /* End Mixins */
 
 
@@ -126,12 +132,10 @@ div#content {
     padding: 0px 40px;
 }
 
-div#navigation {
-    text-align: right;
+div.navigation {
     margin: 0px 10px;
     padding: 20px 0px;
     a {
-        @include round-some-corners(5px);
         color: $bgcolorin;
         text-decoration: none;
         background-color: $fgcolor;
@@ -142,10 +146,24 @@ div#navigation {
     }
     li {
         list-style-type: none;
-        padding: 8px 0px 8px 0px;
+        padding: 12px 0px 12px 0px;
     }
     ul {
         padding: 0px;
+    }
+}
+
+div#nav-left {
+    text-align: right;
+    a {
+        @include round-some-corners(5px);
+    }
+}
+
+div#nav-right {
+    text-align: left;
+    a {
+        @include round-other-corners(5px);
     }
 }
 

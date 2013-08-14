@@ -14,21 +14,28 @@ div#content {
     padding-left: 10px;
 }
 
-div#navigation {
-    text-align: right;
+div.navigation {
     margin-top: 0px;
 }
 
-div#navigation a {
+div.navigation a {
     color: white;
     text-decoration: none;
     background-color: black;
     padding: 3px 10px 3px 10px;
 }
 
-div#navigation li {
+div.navigation li {
     list-style-type: none;
     padding: 3px 0px 3px 0px;
+}
+
+div#nav-left {
+    text-align: right;
+}
+
+div#nav-right {
+    text-align: left;
 }
 
 /* don't let code blocks stretch too far */
