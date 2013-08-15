@@ -51,6 +51,7 @@ main = hakyllWith config $ do
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
     -- Render posts
+    {-
     match "posts/*" $ do
         route   $ setExtension ".html"
         compile $ do
@@ -59,6 +60,7 @@ main = hakyllWith config $ do
             >>= loadAndApplyTemplate "templates/post.html"
                     (postCtx tags <> defaultContext)
             >>= finish "Blog"
+            -}
 
     -- Render posts page
     create ["posts.html"] $ do
@@ -81,7 +83,8 @@ main = hakyllWith config $ do
                         (constField "posts" list <> defaultContext)
                 >>= finish "Home"
 
-    -- About
+    -- Pages
+    {-
     match "about.markdown" $ do
         route   $ setExtension ".html"
         compile $ pandocCompiler >>= finish "About"
@@ -89,6 +92,11 @@ main = hakyllWith config $ do
     match "projects.markdown" $ do
         route   $ setExtension ".html"
         compile $ pandocCompiler >>= finish "Projects"
+        -}
+
+    match "pages/*" $ do
+        route   $ composeRoutes (gsubRoute "pages/" (const "")) (setExtension ".html")
+        compile $ pandocCompiler >>= finish ""
 
     -- Rss Feed
     create ["rss.xml"] $ do
