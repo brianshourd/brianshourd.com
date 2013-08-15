@@ -1,3 +1,6 @@
+---
+siteTitle: About Me
+---
 #About Me
 
 I'm currently a Ph.D. student at the University of Notre Dame studying

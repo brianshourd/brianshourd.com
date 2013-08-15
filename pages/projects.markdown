@@ -1,3 +1,6 @@
+---
+siteTitle: Projects
+---
 # Projects
 
 If you just want to see all of the code, pretty much everything is

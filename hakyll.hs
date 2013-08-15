@@ -19,7 +19,7 @@ module Main where
 import Control.Applicative ((<$>))
 import Data.Char (ord)
 import Data.Map (lookup)
-import Data.Monoid ((<>), mconcat)
+import Data.Monoid ((<>), mconcat, mempty)
 import Text.Pandoc (WriterOptions (..), HTMLMathMethod (MathJax))
 
 import Hakyll
@@ -51,7 +51,6 @@ main = hakyllWith config $ do
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
     -- Render posts
-    {-
     match "posts/*" $ do
         route   $ setExtension ".html"
         compile $ do
@@ -59,8 +58,7 @@ main = hakyllWith config $ do
             >>= saveSnapshot "content" -- ^ For RSS
             >>= loadAndApplyTemplate "templates/post.html"
                     (postCtx tags <> defaultContext)
-            >>= finish "Blog"
-            -}
+            >>= finish (titleCtx "Blog")
 
     -- Render posts page
     create ["posts.html"] $ do
@@ -81,22 +79,12 @@ main = hakyllWith config $ do
             makeItem ""
                 >>= loadAndApplyTemplate "templates/index.html" 
                         (constField "posts" list <> defaultContext)
-                >>= finish "Home"
+                >>= finish (titleCtx "Home")
 
     -- Pages
-    {-
-    match "about.markdown" $ do
-        route   $ setExtension ".html"
-        compile $ pandocCompiler >>= finish "About"
-
-    match "projects.markdown" $ do
-        route   $ setExtension ".html"
-        compile $ pandocCompiler >>= finish "Projects"
-        -}
-
     match "pages/*" $ do
         route   $ composeRoutes (gsubRoute "pages/" (const "")) (setExtension ".html")
-        compile $ pandocCompiler >>= finish ""
+        compile $ pandocCompiler >>= finish mempty
 
     -- Rss Feed
     create ["rss.xml"] $ do
@@ -142,12 +130,14 @@ postCtx tags = mconcat
     , defaultContext
     ]
 
-topCtx :: String -> Context String
-topCtx title = mconcat
+topCtx :: Context String
+topCtx = mconcat
     [ field "mathjax" mathjax
     , field "colorize" colorize
-    , constField "siteTitle" title
     ]
+
+titleCtx :: String -> Context String
+titleCtx title = constField "siteTitle" title
 
 -- ===================
 -- Auxiliary Functions
@@ -190,6 +180,9 @@ mathjax item = do
         Just "true" -> "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\" />"
         otherwise   -> ""
 
+getTitle :: Item String -> Compiler String
+getTitle item = getMetadataField' (itemIdentifier item) "title"
+    
 -- Make a page from a list of posts. Was duplicated code, so refactored.
 postPage :: Tags -> String -> Pattern -> Compiler (Item String)
 postPage tags title pattern = do
@@ -198,11 +191,11 @@ postPage tags title pattern = do
         >>= loadAndApplyTemplate "templates/posts.html"
                 (constField "posts" list <> constField "title" title <>
                     defaultContext)
-        >>= finish title
+        >>= finish (titleCtx title)
 
 -- Nearly everything loads the last template with the same options, only
 -- a different title, then relativizes urls. Refactor it away.
-finish :: String -> Item String -> Compiler (Item String)
-finish title item = loadAndApplyTemplate 
-        "templates/default.html" (topCtx title <> defaultContext) item
+finish :: Context String -> Item String -> Compiler (Item String)
+finish context item = loadAndApplyTemplate 
+        "templates/default.html" (context <> topCtx <> defaultContext) item
     >>= relativizeUrls
