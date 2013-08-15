@@ -32,13 +32,7 @@ main = hakyllWith config $ do
         compile copyFileCompiler
 
     -- Move static files
-    match "static/*" $ do
-        route $ gsubRoute "static/" (const "")
-        compile copyFileCompiler
-    match "static/pso/*" $ do
-        route $ gsubRoute "static/" (const "")
-        compile copyFileCompiler
-    match "static/resume/*" $ do
+    match "static/**" $ do
         route $ gsubRoute "static/" (const "")
         compile copyFileCompiler
 
@@ -82,7 +76,7 @@ main = hakyllWith config $ do
                 >>= finish (titleCtx "Home")
 
     -- Pages
-    match "pages/*" $ do
+    match "pages/*.markdown" $ do
         route   $ composeRoutes (gsubRoute "pages/" (const "")) (setExtension ".html")
         compile $ pandocCompiler >>= finish mempty
 
